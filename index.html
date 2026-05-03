@@ -52,22 +52,20 @@
       <section>
         <h2>2. What stays on your device</h2>
         <p>
-          The extension uses Chrome's <code>storage.local</code> API to keep
-          your settings <strong>only on the computer the extension is installed on</strong>:
-        </p>
-        <ul>
-          <li><strong>API base URL</strong> — where to send converted skin data (default <code>https://inspectapi.dghq.app</code>).</li>
-          <li><strong>Bot base URL</strong> — where to resolve unmasked Steam inspect links (default <code>https://inspectbot.dghq.app</code>).</li>
-          <li><strong>API key override</strong> (optional) — leave blank to use the bundled key. Advanced users who run their own backend can paste a custom key here.</li>
-        </ul>
-        <p>
-          These values are <strong>never transmitted</strong> by the extension
-          itself. They are read only when you take a deliberate action (clicking
-          <em>Convert</em> or one of the in-page <em>!ngk</em> buttons) so that
-          the extension knows where to send your request.
+          The extension's backend URLs (the inspect API and the Steam GC bot)
+          are hardcoded into the published package — there is no user setting
+          for them. You don't have to configure anything to use the extension.
         </p>
         <p>
-          The extension also ships with a <strong>bundled authentication
+          The only value the extension stores in Chrome's
+          <code>storage.local</code> on your device is an
+          <strong>optional API key override</strong>: a textbox in the
+          settings panel that's blank by default. Self-hosters who fork the
+          extension and run their own backend can paste a custom key there;
+          everyone else can leave it empty (the default).
+        </p>
+        <p>
+          The extension ships with a <strong>bundled authentication
           token</strong> used to identify it to the inspect server. This
           token is part of the extension package itself, not collected from
           you. It is intentionally limited to the small set of operations
@@ -234,7 +232,7 @@
           <dd>Lets us copy the generated <code>!ngk &lt;code&gt;</code> command and the <code>connect inspect.dghq.app</code> string to your clipboard when you click the relevant buttons.</dd>
 
           <dt><code>storage</code></dt>
-          <dd>Lets us save the API base URL, bot base URL, and any optional API key override in <code>chrome.storage.local</code> on your computer.</dd>
+          <dd>Lets us save the optional API key override (if you've set one) in <code>chrome.storage.local</code> on your computer.</dd>
 
           <dt>Host permissions for <code>inspectapi.dghq.app</code> and <code>inspectbot.dghq.app</code></dt>
           <dd>Required so the extension can call the backend API. No other domains are contacted.</dd>
