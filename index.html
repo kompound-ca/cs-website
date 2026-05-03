@@ -24,8 +24,8 @@
         <h2>The short version</h2>
         <ul>
           <li>We do <strong>not</strong> collect personal information — no name, email, payment, or browsing history.</li>
-          <li>The extension stores your API URL and shared key <strong>locally on your computer</strong>. They are never sent anywhere except the server you point them at.</li>
-          <li>When you click <em>Convert</em> or <em>!ngk</em>, only the CS2 item data (weapon, skin, stickers, charm, wear) is transmitted to the inspect server you configured. That's it.</li>
+          <li>The extension ships with a bundled, scoped authentication token used to talk to the dghq.app inspect server. You don't have to enter anything; it just works.</li>
+          <li>When you click <em>Convert</em> or <em>!ngk</em>, only the CS2 item data (weapon, skin, stickers, charm, wear) is transmitted. That's it.</li>
           <li>No analytics. No cookies. No telemetry. No third parties.</li>
           <li>Source code is open: <a href="https://github.com/kompound-ca/cs-extension" rel="noopener">github.com/kompound-ca/cs-extension</a> — verify any of this for yourself.</li>
         </ul>
@@ -53,13 +53,12 @@
         <h2>2. What stays on your device</h2>
         <p>
           The extension uses Chrome's <code>storage.local</code> API to keep
-          three configuration values <strong>only on the computer the
-          extension is installed on</strong>:
+          your settings <strong>only on the computer the extension is installed on</strong>:
         </p>
         <ul>
           <li><strong>API base URL</strong> — where to send converted skin data (default <code>https://inspectapi.dghq.app</code>).</li>
           <li><strong>Bot base URL</strong> — where to resolve unmasked Steam inspect links (default <code>https://inspectbot.dghq.app</code>).</li>
-          <li><strong>Shared API key</strong> — a community-issued secret that authenticates your requests against the server.</li>
+          <li><strong>API key override</strong> (optional) — leave blank to use the bundled key. Advanced users who run their own backend can paste a custom key here.</li>
         </ul>
         <p>
           These values are <strong>never transmitted</strong> by the extension
@@ -68,7 +67,16 @@
           the extension knows where to send your request.
         </p>
         <p>
-          You can clear these values at any time by going to
+          The extension also ships with a <strong>bundled authentication
+          token</strong> used to identify it to the inspect server. This
+          token is part of the extension package itself, not collected from
+          you. It is intentionally limited to the small set of operations
+          the extension performs (submit a skin payload, look up a stored
+          code, resolve an unmasked link) and grants no administrative
+          access to the server.
+        </p>
+        <p>
+          You can clear your local settings at any time by going to
           <code>chrome://extensions</code> →
           <em>CS2 GenCode</em> → <em>Details</em> →
           <em>Site settings / storage</em>, or by uninstalling the extension.
@@ -123,12 +131,15 @@
           information are already public on Steam.
         </p>
 
-        <h3>3.3 Reading the configured API key</h3>
+        <h3>3.3 Reading the bundled authentication token</h3>
         <p>
-          Both 3.1 and 3.2 send your shared API key in an
-          <code>X-API-Key</code> HTTPS header so the server can authenticate
-          you. The key is transmitted only to the URLs you explicitly
-          configured.
+          Both 3.1 and 3.2 send the bundled scoped token in an
+          <code>X-API-Key</code> HTTPS header so the server can identify
+          requests as coming from the extension. The token is part of the
+          extension package itself, not user data. It is transmitted only
+          to the configured backend URLs (see 3.1, 3.2). If you have set a
+          custom API key override in the settings panel, that value is sent
+          instead of the bundled token.
         </p>
 
         <h3>3.4 IP address</h3>
@@ -223,7 +234,7 @@
           <dd>Lets us copy the generated <code>!ngk &lt;code&gt;</code> command and the <code>connect inspect.dghq.app</code> string to your clipboard when you click the relevant buttons.</dd>
 
           <dt><code>storage</code></dt>
-          <dd>Lets us save the API base URL, bot base URL, and your API key in <code>chrome.storage.local</code> on your computer.</dd>
+          <dd>Lets us save the API base URL, bot base URL, and any optional API key override in <code>chrome.storage.local</code> on your computer.</dd>
 
           <dt>Host permissions for <code>inspectapi.dghq.app</code> and <code>inspectbot.dghq.app</code></dt>
           <dd>Required so the extension can call the backend API. No other domains are contacted.</dd>
