@@ -3,142 +3,158 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Install CS2 GenCode — the Chrome extension that converts CS2 inspect links into !ngk chat commands for the dghq.app community server." />
-    <meta property="og:title" content="Install CS2 GenCode" />
-    <meta property="og:description" content="Pre-Web-Store install for the CS2 GenCode Chrome extension." />
+    <meta name="description" content="CS2 GenCode — Chrome extension that converts CS2 inspect links into !ngk chat commands for the dghq.app community server. One-line install while we wait for Web Store approval." />
+    <meta property="og:title" content="CS2 GenCode" />
+    <meta property="og:description" content="Convert any CS2 inspect link into an !ngk command for the dghq.app community server." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cs2inspect.dghq.app/" />
     <meta name="theme-color" content="#0f0f1a" />
-    <title>Install CS2 GenCode</title>
+    <title>CS2 GenCode</title>
     <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
   </head>
   <body>
     <main>
       <header class="hero">
         <div class="kicker">CS2 GenCode</div>
-        <h1>Install the extension</h1>
+        <h1>Spawn any CS2 skin on dghq.app in two clicks</h1>
         <p class="subtitle">
-          Early-access install for the dghq.app inspect community.
-          Will be on the Chrome Web Store after Google's review wraps —
-          this page is here so you don't have to wait.
+          Chrome extension that turns any CS2 inspect link — masked,
+          unmasked, marketplace — into an <code>!ngk</code> command you
+          paste in the inspect.dghq.app server chat to spawn the skin.
         </p>
       </header>
 
-      <section class="download-card">
-        <div class="download-meta">
-          <div class="version-badge">v1.0.0</div>
-          <div class="size">~70 KB</div>
+      <section class="features">
+        <h2>What it does</h2>
+        <div class="feature-grid">
+          <div class="feature">
+            <div class="feature-icon">🔗</div>
+            <h3>Convert any inspect link</h3>
+            <p>Masked craft links, unmasked Steam marketplace links, raw protobuf hex — all decoded into a single <code>!ngk &lt;code&gt;</code> command.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <h3>One-click "!gen" buttons</h3>
+            <p>Auto-injects helper buttons next to inspect-link icons on CSFloat, CS2 Inspects, Steam Community, Steam Marketplace, and Skinport.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🎨</div>
+            <h3>Full sticker / charm support</h3>
+            <p>Up to 5 stickers per weapon with free-placement rotation, scale, and X/Y offsets. Charms / keychains too.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🎮</div>
+            <h3>One-click server connect</h3>
+            <p>Copies <code>connect&nbsp;inspect.dghq.app</code> to your clipboard so you can paste it straight into the CS2 console.</p>
+          </div>
         </div>
-        <a class="download-btn" href="./cs2-gencode-1.0.0.zip" download>
-          ⬇ Download cs2-gencode-1.0.0.zip
-        </a>
-        <p class="download-note">
-          ZIP signature is verifiable against the public source at
-          <a href="https://github.com/kompound-ca/cs-extension" rel="noopener">github.com/kompound-ca/cs-extension</a>.
+      </section>
+
+      <section class="install-card">
+        <h2>Install</h2>
+        <p class="install-lead">
+          One PowerShell line. Downloads the signed extension, opens
+          Chrome to the extensions page, and tells you exactly what to
+          click. About 30 seconds end-to-end.
+        </p>
+
+        <div class="install-cmd">
+          <code id="install-cmd-text">iwr -useb https://cs2inspect.dghq.app/install.ps1 | iex</code>
+          <button id="copy-cmd-btn" class="copy-cmd-btn" type="button" aria-label="Copy install command">Copy</button>
+        </div>
+
+        <div class="install-warn">
+          <strong>⚠ Always read scripts before piping them into your shell.</strong>
+          Copy-pasting <code>iwr | iex</code> from any site is a real attack
+          vector — even ones you trust. The full script is shown below;
+          read it, then run it.
+        </div>
+
+        <details class="install-source">
+          <summary>Show install.ps1 source (no admin rights, no registry writes, no background processes)</summary>
+          <pre><code id="install-source-code">Loading…</code></pre>
+          <p class="install-source-note">
+            Verify against the canonical copy at
+            <a href="https://github.com/kompound-ca/cs-website/blob/main/install/install.ps1" rel="noopener">github.com/kompound-ca/cs-website</a>.
+          </p>
+        </details>
+
+        <p class="install-fallback">
+          Don't trust scripts? Skip it — manual install below works just as
+          well, just with more clicks.
         </p>
       </section>
 
       <section>
-        <h2>Install in 30 seconds</h2>
+        <h2>Manual install</h2>
+        <p>
+          Don't want to run the script? Download the signed
+          <code>.crx</code> directly and drag it in.
+        </p>
+        <div class="download-row">
+          <a class="download-btn" href="./cs2-gencode-1.0.0.crx" download>
+            ⬇ cs2-gencode-1.0.0.crx <span class="download-meta-inline">(~70 KB)</span>
+          </a>
+        </div>
+
         <ol class="steps">
-          <li>
-            <strong>Download</strong> the ZIP above and
-            <strong>extract it</strong> somewhere persistent
-            (e.g. <code>Documents\cs2-gencode\</code> or
-            <code>~/cs-extension/</code>). Don't delete the folder later —
-            Chrome reads from it on every browser launch.
-          </li>
-          <li>
-            Open Chrome and navigate to
-            <code>chrome://extensions/</code>.
-          </li>
-          <li>
-            Toggle <strong>Developer mode</strong> on (top-right
-            switch).
-          </li>
-          <li>
-            Click <strong>Load unpacked</strong> and select the folder
-            you extracted in step&nbsp;1.
-          </li>
-          <li>
-            The CS2 GenCode icon appears in your toolbar. Pin it from
-            the puzzle-piece menu so it's always visible.
-          </li>
-          <li>
-            Open the popup → paste a CS2 inspect link → click
-            <em>Convert</em> → the
-            <code>!ngk&nbsp;&lt;code&gt;</code> command lands on your
-            clipboard. Paste it in the dghq.app server chat to spawn
-            the skin.
-          </li>
+          <li>Open Chrome → <code>chrome://extensions/</code>.</li>
+          <li>Toggle <strong>Developer mode</strong> ON (top-right switch).</li>
+          <li>Drag the <code>.crx</code> file from your Downloads folder onto the Chrome extensions tab.</li>
+          <li>Click <strong>Add extension</strong> on the confirmation dialog.</li>
+          <li>Turn Developer mode OFF — the extension stays installed and Chrome stops showing the dev-mode warning popup on launch.</li>
+          <li>Pin the CS2 GenCode icon from the puzzle-piece menu so it stays visible in your toolbar.</li>
         </ol>
       </section>
 
       <section>
-        <h2>What you can do once it's installed</h2>
-        <ul>
-          <li>
-            <strong>Convert any CS2 inspect link</strong> — masked,
-            unmasked, or raw protobuf hex — into an
-            <code>!ngk</code> chat command.
-          </li>
-          <li>
-            <strong>Click "!gen" buttons on supported sites</strong>
-            (CSFloat, CS2 Inspects, Steam Community, Steam Marketplace,
-            Skinport) — the extension auto-injects helper buttons next
-            to inspect-link icons.
-          </li>
-          <li>
-            <strong>Sticker bombs work</strong> — up to 5 stickers per
-            weapon with full free-placement rotation, scale, and X/Y
-            offsets, plus charm/keychain support.
-          </li>
-          <li>
-            <strong>One-click connect</strong> — copies
-            <code>connect&nbsp;inspect.dghq.app</code> to your clipboard
-            so you can paste straight into the CS2 console to join the
-            server.
-          </li>
-        </ul>
+        <h2>Use it</h2>
+        <p>
+          Open the popup → paste a CS2 inspect link → click
+          <em>Convert</em> → the <code>!ngk&nbsp;&lt;code&gt;</code>
+          command lands on your clipboard. Paste it in the dghq.app
+          server chat and the skin spawns.
+        </p>
+        <p>
+          Or click the <strong>Inspect Server</strong> button in the
+          popup to copy <code>connect&nbsp;inspect.dghq.app</code>,
+          paste it into the CS2 console, and join the server.
+        </p>
       </section>
 
       <section>
         <h2>Updating</h2>
         <p>
-          When a new version drops, just re-download the ZIP, replace
-          your extracted folder's contents with the new files, and
-          click the <strong>↻ refresh</strong> icon on the CS2 GenCode
-          card at <code>chrome://extensions/</code>. Your settings are
-          preserved automatically by Chrome's local storage.
+          Re-run the one-liner — it downloads the latest CRX and
+          replaces the previous install (same extension ID, same
+          settings preserved). Or grab the latest <code>.crx</code>
+          manually and drag it onto <code>chrome://extensions/</code>.
         </p>
         <p>
-          Once Google approves the Web Store listing, you can switch to
-          the public version for automatic updates — but feel free to
-          stay on the unpacked install if you prefer.
-        </p>
-      </section>
-
-      <section class="warnings">
-        <h2>"Disable developer mode extensions" warning</h2>
-        <p>
-          Chrome shows this warning every time you launch the browser
-          while any unpacked extension is loaded. It's not a security
-          alert — it's a nudge to use Web Store extensions instead.
-          Click <strong>Cancel</strong> to keep the extension. The
-          warning disappears once you switch to the Web Store version.
+          Once the Chrome Web Store listing is approved you can switch
+          to the public version for fully automatic updates. Stay on the
+          side-loaded install if you prefer.
         </p>
       </section>
 
       <section>
         <h2>Troubleshooting</h2>
         <details>
+          <summary>"This extension may have been corrupted" / refuses to install</summary>
+          <p>
+            Make sure Developer mode is toggled ON <em>before</em> you
+            drag the <code>.crx</code> in. Chrome silently rejects
+            self-signed CRX drag-installs when Dev mode is off.
+          </p>
+        </details>
+        <details>
           <summary>The popup says "API error: 401 Unauthorized"</summary>
           <p>
             The extension ships with the right key already. If you see
             401, open the popup → ⚙ → "Advanced — override API key" and
             make sure that field is <strong>blank</strong>. A blank
-            field means "use the bundled key." If you accidentally
-            typed something, clearing it and clicking Save fixes it.
+            field means "use the bundled key."
           </p>
         </details>
         <details>
@@ -146,11 +162,9 @@
           <p>
             Marketplace and inventory links require a Steam Game
             Coordinator round-trip to decode (they only contain asset
-            IDs, not item data). The bot occasionally disconnects from
-            Steam and takes ~30 seconds to reconnect. Wait a moment
-            and retry. Masked craft links (like ones from
-            cs2inspects.com) decode fully offline and don't need the
-            bot.
+            IDs). The bot occasionally disconnects from Steam and takes
+            ~30 seconds to reconnect. Wait and retry. Masked craft
+            links decode fully offline and don't need the bot.
           </p>
         </details>
         <details>
@@ -158,32 +172,36 @@
           <p>
             That's a server-plugin issue, not the extension. Hop into
             the dghq.app Discord and report the inspect link plus the
-            <code>!ngk</code> code that didn't work. The plugin is
-            actively being patched.
+            <code>!ngk</code> code that didn't work.
           </p>
         </details>
         <details>
-          <summary>Chrome refuses to load the unpacked extension</summary>
+          <summary>PowerShell says "running scripts is disabled on this system"</summary>
           <p>
-            Make sure the folder you selected contains
-            <code>manifest.json</code> at the top level (not nested
-            inside another folder). If you double-click the ZIP and
-            extract through Windows Explorer, sometimes you end up
-            with <code>cs2-gencode-1.0.0\cs2-gencode-1.0.0\</code> —
-            select the inner one.
+            The <code>iwr | iex</code> pattern doesn't trigger that
+            because nothing is saved to disk as a <code>.ps1</code>.
+            You're seeing this because you tried to run a downloaded
+            <code>.ps1</code> file directly. Use the one-liner instead,
+            or run <code>powershell -ExecutionPolicy Bypass -File install.ps1</code>.
           </p>
         </details>
       </section>
 
       <footer>
         <p>
+          Extension ID: <code>hggjfaaidmlgaofijnfhhpjfelcpaggn</code>
+        </p>
+        <p>
           <a href="https://privacy.dghq.app/" rel="noopener">privacy policy</a>
           ·
-          <a href="https://github.com/kompound-ca/cs-extension" rel="noopener">source</a>
+          <a href="https://github.com/kompound-ca/cs-extension" rel="noopener">extension source</a>
+          ·
+          <a href="https://github.com/kompound-ca/cs-website" rel="noopener">this page's source</a>
           ·
           <a href="https://github.com/kompound-ca/cs-extension/issues" rel="noopener">report a bug</a>
         </p>
       </footer>
     </main>
+
   </body>
 </html>
