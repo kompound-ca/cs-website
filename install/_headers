@@ -8,17 +8,14 @@
 /styles.css
   Cache-Control: public, max-age=86400
 
-# Signed CRX — drag-installable Chrome extension package.
-# Served as application/x-chrome-extension so Chrome recognises it
-# and triggers the install confirmation when dragged onto chrome://extensions/.
-/*.crx
-  Content-Type: application/x-chrome-extension
+# Extension package, served as a download.
+/*.zip
+  Content-Type: application/zip
   Content-Disposition: attachment
   Cache-Control: public, max-age=300
 
-# install.ps1 — served as text/plain so `iwr | iex` reads it cleanly,
-# and so casual visitors can preview the source in their browser
-# instead of being prompted to run it.
+# install.ps1 served as text/plain so `iwr | iex` reads it cleanly,
+# and so casual visitors can preview the source in their browser.
 /install.ps1
   Content-Type: text/plain; charset=utf-8
   Cache-Control: public, max-age=300
