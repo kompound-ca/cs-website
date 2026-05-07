@@ -24,41 +24,6 @@
         </p>
       </header>
 
-      <section class="install-card">
-        <h2>Install</h2>
-        <p class="install-lead">
-          One PowerShell line. Downloads the extension, extracts it to a
-          persistent folder, opens Chrome to the extensions page, and
-          tells you exactly what to click. About 30 seconds end-to-end.
-        </p>
-
-        <div class="install-cmd">
-          <code id="install-cmd-text">iwr -useb https://cs2inspect.dghq.app/install.ps1 | iex</code>
-          <button id="copy-cmd-btn" class="copy-cmd-btn" type="button" aria-label="Copy install command">Copy</button>
-        </div>
-
-        <div class="install-warn">
-          <strong>Always read scripts before piping them into your shell.</strong>
-          Copy-pasting <code>iwr | iex</code> from any site is a real attack
-          vector, even ones you trust. The full script is shown below.
-          Read it, then run it.
-        </div>
-
-        <details class="install-source">
-          <summary>Show install.ps1 source (no admin rights, no registry writes, no background processes)</summary>
-          <pre><code id="install-source-code">Loading...</code></pre>
-          <p class="install-source-note">
-            Verify against the canonical copy at
-            <a href="https://github.com/kompound-ca/cs-website/blob/main/install/install.ps1" rel="noopener">github.com/kompound-ca/cs-website</a>.
-          </p>
-        </details>
-
-        <p class="install-fallback">
-          Don't trust scripts? Skip it. Manual install below works just as
-          well, just with more clicks.
-        </p>
-      </section>
-
       <section>
         <h2>Manual install</h2>
         <p>
