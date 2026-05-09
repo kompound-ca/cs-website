@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Privacy policy for the CS2 GenCode Chrome extension and the dghq.app inspect community server." />
+    <meta property="og:title" content="Privacy Policy — CS2 GenCode" />
+    <meta property="og:description" content="What the CS2 GenCode extension stores, what it transmits, and what it never touches." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cs2inspect.dghq.app/privacy/" />
+    <meta name="theme-color" content="#0f0f1a" />
+    <title>Privacy Policy — CS2 GenCode</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <div class="kicker">CS2 GenCode</div>
+        <h1>Privacy Policy</h1>
+        <p class="effective">Effective <time datetime="2026-05-03">May 3, 2026</time></p>
+      </header>
+
+      <section class="tldr">
+        <h2>The short version</h2>
+        <ul>
+          <li>We do <strong>not</strong> collect personal information — no name, email, payment, or browsing history.</li>
+          <li>The extension ships with a bundled, scoped authentication token used to talk to the dghq.app inspect server. You don't have to enter anything; it just works.</li>
+          <li>When you click <em>Convert</em> or <em>!ngk</em>, only the CS2 item data (weapon, skin, stickers, charm, wear) is transmitted. That's it.</li>
+          <li>No analytics. No cookies. No telemetry. No third parties.</li>
+          <li>Source code is open: <a href="https://github.com/kompound-ca/cs-extension" rel="noopener">github.com/kompound-ca/cs-extension</a> — verify any of this for yourself.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>1. Who this covers</h2>
+        <p>
+          This policy applies to the <strong>CS2 GenCode</strong> browser extension
+          (Chrome / Chromium-based browsers) and the backend services it talks
+          to at <code>inspectapi.dghq.app</code> and <code>inspectbot.dghq.app</code>,
+          which together support the
+          <code>inspect.dghq.app</code> Counter-Strike 2 community inspect
+          server.
+        </p>
+        <p>
+          The extension is operated as a personal, hobbyist project. There is
+          no commercial entity behind it; the server and extension exist to
+          let community members preview and spawn skins on a private CS2
+          server.
+        </p>
+      </section>
+
+      <section>
+        <h2>2. What stays on your device</h2>
+        <p>
+          The extension's backend URLs (the inspect API and the Steam GC bot)
+          are hardcoded into the published package — there is no user setting
+          for them. You don't have to configure anything to use the extension.
+        </p>
+        <p>
+          The only value the extension stores in Chrome's
+          <code>storage.local</code> on your device is an
+          <strong>optional API key override</strong>: a textbox in the
+          settings panel that's blank by default. Self-hosters who fork the
+          extension and run their own backend can paste a custom key there;
+          everyone else can leave it empty (the default).
+        </p>
+        <p>
+          The extension ships with a <strong>bundled authentication
+          token</strong> used to identify it to the inspect server. This
+          token is part of the extension package itself, not collected from
+          you. It is intentionally limited to the small set of operations
+          the extension performs (submit a skin payload, look up a stored
+          code, resolve an unmasked link) and grants no administrative
+          access to the server.
+        </p>
+        <p>
+          You can clear your local settings at any time by going to
+          <code>chrome://extensions</code> →
+          <em>CS2 GenCode</em> → <em>Details</em> →
+          <em>Site settings / storage</em>, or by uninstalling the extension.
+        </p>
+      </section>
+
+      <section>
+        <h2>3. What is transmitted, and only when you ask</h2>
+        <p>
+          The extension sits idle until you take one of three actions. Each
+          action and the exact data it sends is listed below.
+        </p>
+
+        <h3>3.1 Converting a CS2 inspect link or hex (popup or in-page button)</h3>
+        <p>
+          The extension decodes the link <strong>locally in your browser</strong>
+          using the publicly available
+          <a href="https://www.npmjs.com/package/@csfloat/cs2-inspect-serializer" rel="noopener">@csfloat/cs2-inspect-serializer</a>
+          library, then sends the decoded item data to the configured API base URL via HTTPS POST:
+        </p>
+        <ul>
+          <li>Weapon definition index (defindex)</li>
+          <li>Paint kit (skin) index</li>
+          <li>Pattern seed and float (wear)</li>
+          <li>Item quality (e.g. StatTrak indicator)</li>
+          <li>Up to five stickers, each with: sticker ID, render anchor (schema), wear, scale, rotation, X / Y offsets, and a few rarely-used fields (tint, wrapped, highlight)</li>
+          <li>Charm / keychain (if present): sticker ID, pattern, X / Y / Z offsets</li>
+          <li>Item style and upgrade level (legacy vs upgraded skin rendering)</li>
+          <li>Custom name tag text (if present on the item)</li>
+        </ul>
+        <p>
+          That payload contains <strong>no information about you</strong>: not
+          your Steam ID, not your inventory contents, not your IP address
+          beyond what HTTPS connections necessarily expose. Every field
+          describes the in-game cosmetic item itself.
+        </p>
+
+        <h3>3.2 Resolving an unmasked inspect link (Steam marketplace / inventory link)</h3>
+        <p>
+          Steam links of the form
+          <code>steam://run/730//+csgo_econ_action_preview S…A…D…</code>
+          contain only Steam asset and owner IDs — the actual item data has
+          to be looked up via Valve's Game Coordinator. When you paste such a
+          link, the extension forwards <strong>only the link itself</strong> to
+          the bot at <code>inspectbot.dghq.app/resolve</code> over HTTPS. The
+          bot uses a dedicated Steam account to fetch the item and returns
+          the same decoded data shape as 3.1.
+        </p>
+        <p>
+          The link contains a public Steam asset ID and, for marketplace
+          listings, the lister's Steam community ID — both pieces of
+          information are already public on Steam.
+        </p>
+
+        <h3>3.3 Reading the bundled authentication token</h3>
+        <p>
+          Both 3.1 and 3.2 send the bundled scoped token in an
+          <code>X-API-Key</code> HTTPS header so the server can identify
+          requests as coming from the extension. The token is part of the
+          extension package itself, not user data. It is transmitted only
+          to the configured backend URLs (see 3.1, 3.2). If you have set a
+          custom API key override in the settings panel, that value is sent
+          instead of the bundled token.
+        </p>
+
+        <h3>3.4 IP address</h3>
+        <p>
+          Like every HTTP request you make on the internet, your IP address
+          is visible to the receiving server. Our backend uses it only to
+          enforce a per-IP rate limit (30 requests per minute) on the bot
+          endpoint. IP addresses are kept in transient request logs and
+          rotated within 30 days; they are not used for analytics, sold,
+          shared, or correlated with any account.
+        </p>
+      </section>
+
+      <section>
+        <h2>4. What we do <em>not</em> collect</h2>
+        <p>
+          To remove ambiguity, the extension and its backend services
+          <strong>do not collect, store, or transmit</strong>:
+        </p>
+        <ul>
+          <li>Personal identifiers (name, email, phone, mailing address)</li>
+          <li>Payment information</li>
+          <li>Steam account credentials, inventory, or session data</li>
+          <li>Browsing history or activity outside the explicit Convert / !ngk action</li>
+          <li>Page content from sites you visit</li>
+          <li>Cookies, localStorage from other origins, or browser fingerprints</li>
+          <li>Analytics or telemetry of any kind</li>
+          <li>Third-party tracking pixels, beacons, or SDKs</li>
+          <li>Microphone, camera, geolocation, or any other device sensor</li>
+          <li>Keystrokes, clicks, or screenshots</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>5. Backend data retention</h2>
+        <p>
+          When you submit a converted item, the inspect API stores the item
+          data keyed by a content hash (SHA-256 of the canonical JSON
+          payload). The result of submitting the same item twice is the same
+          short code — no user account, no per-user history, no link from a
+          stored item back to the person who submitted it.
+        </p>
+        <ul>
+          <li><strong>Skin records</strong> (item JSON + content-hash code) are retained indefinitely so codes remain stable. Records can be wiped on request.</li>
+          <li><strong>Bot resolution requests</strong> are not persisted after the response is returned.</li>
+          <li><strong>Web server access logs</strong> (timestamps, IP, request path, response code) are retained at most 30 days for abuse prevention and operational diagnostics.</li>
+        </ul>
+        <p>
+          We do not sell, share, or rent any data. There are no advertising
+          partners, analytics processors, or third-party SDKs in either the
+          extension or the backend.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. Your rights</h2>
+        <p>
+          Because we don't store anything that links submitted item data back
+          to you, the simplest exercise of your rights is to stop using the
+          extension — once uninstalled, no further data is sent and there is
+          no per-user record to delete.
+        </p>
+        <p>
+          If you live in a jurisdiction with data subject rights under the GDPR
+          (EU/UK), CCPA (California), or similar regimes, you may contact us
+          at the email address below to:
+        </p>
+        <ul>
+          <li>Request access to any data associated with your IP address (typically there is none beyond rate-limit logs)</li>
+          <li>Request deletion of any logs or stored items that you can identify</li>
+          <li>Object to processing or restrict processing</li>
+        </ul>
+        <p>
+          We aim to respond within 30 days. There is no charge.
+        </p>
+      </section>
+
+      <section>
+        <h2>7. Browser permissions, in plain English</h2>
+        <p>
+          The extension requests the following Chrome permissions. Each is
+          used only for the purpose described.
+        </p>
+        <dl>
+          <dt><code>activeTab</code></dt>
+          <dd>Lets the extension inject the <em>!gen</em> / <em>!ngk</em> button into a supported page when you have it open.</dd>
+
+          <dt><code>contextMenus</code></dt>
+          <dd>Adds the right-click "Convert inspect link to !ngk code" item when you right-click a Steam inspect link.</dd>
+
+          <dt><code>clipboardWrite</code></dt>
+          <dd>Lets us copy the generated <code>!ngk &lt;code&gt;</code> command and the <code>connect inspect.dghq.app</code> string to your clipboard when you click the relevant buttons.</dd>
+
+          <dt><code>storage</code></dt>
+          <dd>Lets us save the optional API key override (if you've set one) in <code>chrome.storage.local</code> on your computer.</dd>
+
+          <dt>Host permissions for <code>inspectapi.dghq.app</code> and <code>inspectbot.dghq.app</code></dt>
+          <dd>Required so the extension can call the backend API. No other domains are contacted.</dd>
+
+          <dt>Host permissions for <code>csfloat.com</code>, <code>cs2inspects.com</code>, <code>steamcommunity.com</code>, <code>store.steampowered.com</code>, <code>skinport.com</code></dt>
+          <dd>Required so the extension can inject buttons next to inspect links on these supported sites. We never read or transmit page content beyond the inspect-link URL you click.</dd>
+        </dl>
+      </section>
+
+      <section>
+        <h2>8. Children's privacy</h2>
+        <p>
+          The extension and its server are not directed at children under 13
+          (or 16 in jurisdictions where that is the relevant age). Counter-Strike 2
+          itself is rated for older audiences. We do not knowingly collect any
+          information from children.
+        </p>
+      </section>
+
+      <section>
+        <h2>9. Security</h2>
+        <p>
+          All extension–to–backend traffic uses HTTPS with valid Let's Encrypt
+          certificates. The shared API key is transmitted only over those
+          encrypted connections and only to the configured endpoints.
+        </p>
+        <p>
+          If you discover a security issue, please email
+          <a href="mailto:security@dghq.app">security@dghq.app</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>10. Changes to this policy</h2>
+        <p>
+          If this policy materially changes, we will update the
+          <em>Effective</em> date at the top of the page and announce the
+          change in the extension's release notes on GitHub. Continuing to
+          use the extension after such an update constitutes acceptance of
+          the revised policy.
+        </p>
+      </section>
+
+      <section>
+        <h2>11. Contact</h2>
+        <p>
+          Questions, requests, or concerns? Email
+          <a href="mailto:info@dghq.app">info@dghq.app</a>
+          or open an issue on
+          <a href="https://github.com/kompound-ca/cs-extension/issues" rel="noopener">GitHub</a>.
+        </p>
+      </section>
+
+      <footer>
+        <p>
+          &copy; 2026 dghq.app community ·
+          <a href="https://github.com/kompound-ca/cs-extension" rel="noopener">extension source</a> ·
+          <a href="https://github.com/kompound-ca/cs-website" rel="noopener">this page's source</a>
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

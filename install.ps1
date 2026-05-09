@@ -3,7 +3,7 @@
 #   https://github.com/kompound-ca/cs-website/blob/main/install/install.ps1
 #
 # What this does:
-#   1. Downloads cs2-gencode-1.0.1.zip
+#   1. Downloads cs2-gencode-1.0.2.zip
 #   2. Extracts it to %LOCALAPPDATA%\cs2-gencode (persistent, Chrome reads from it on every launch)
 #   3. Copies that folder path to your clipboard
 #   4. Opens that folder in Explorer
@@ -18,7 +18,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-$ZipUrl     = 'https://cs2inspect.dghq.app/cs2-gencode-1.0.1.zip'
+$ZipUrl     = 'https://cs2inspect.dghq.app/cs2-gencode-1.0.2.zip'
 $InstallDir = Join-Path $env:LOCALAPPDATA 'cs2-gencode'
 $TempZip    = Join-Path $env:TEMP 'cs2-gencode-install.zip'
 

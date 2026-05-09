@@ -4,7 +4,10 @@ Static site hosting public-facing pages for the [CS2 GenCode extension](https://
 
 ## Pages
 
-- `index.html` — privacy policy, served at <https://privacy.dghq.app/>
+- `index.html` — install / landing page, served at <https://cs2inspect.dghq.app/>
+- `privacy/index.html` — privacy policy, served at <https://cs2inspect.dghq.app/privacy/>
+
+The site previously had a second hostname, `privacy.dghq.app`, which served only the privacy policy. That project has been retired and the privacy policy now lives at `/privacy/` on the install hostname.
 
 ## Stack
 
@@ -21,9 +24,7 @@ python -m http.server 8000
 
 ## Deploy (Cloudflare Pages)
 
-This repo is wired up to Cloudflare Pages. On every push to `main`, Pages
-publishes `index.html` and `styles.css` to the production environment and
-serves them at `privacy.dghq.app`.
+This repo is wired up to Cloudflare Pages. On every push to `main`, Pages publishes the repo root to production and serves it at `cs2inspect.dghq.app` (with the privacy policy at `cs2inspect.dghq.app/privacy/`).
 
 Build settings (already configured in the Pages dashboard):
 
@@ -32,10 +33,18 @@ Build settings (already configured in the Pages dashboard):
 - **Build output directory**: `/`
 - **Root directory**: `/`
 
-Custom security headers are defined in `_headers` (Cloudflare Pages reads
-this file automatically; see [docs](https://developers.cloudflare.com/pages/configuration/headers/)).
+Custom security headers are defined in `_headers` (Cloudflare Pages reads this file automatically; see [docs](https://developers.cloudflare.com/pages/configuration/headers/)).
 
 ## Editing the privacy policy
 
-Edit `index.html`. Keep the `Effective` date at the top in sync if changes
-are material. Push to `main`. Pages will redeploy in ~30 seconds.
+Edit `privacy/index.html`. Keep the `Effective` date at the top in sync if changes are material. Push to `main`; Pages redeploys in ~30 seconds.
+
+## Bumping the install zip
+
+When the extension ships a new version:
+
+1. Build it in the cs-extension repo (`npm run pack`).
+2. Copy the new `cs2-gencode-<version>.zip` into this repo's root.
+3. Delete the old zip.
+4. Update the version references in `index.html` and `install.ps1`.
+5. Commit and push.
