@@ -60,9 +60,11 @@
           The only value the extension stores in Chrome's
           <code>storage.local</code> on your device is an
           <strong>optional API key override</strong>: a textbox in the
-          settings panel that's blank by default. Self-hosters who fork the
-          extension and run their own backend can paste a custom key there;
-          everyone else can leave it empty (the default).
+          popup's settings panel that's blank by default. Leave it empty
+          and the extension uses the bundled key. The override is an
+          escape hatch for advanced troubleshooting and is never written
+          to <code>storage.local</code> unless you explicitly type a
+          value and hit Save.
         </p>
         <p>
           The extension ships with a <strong>bundled authentication
