@@ -1,10 +1,10 @@
-# CS2 GenCode one-line installer
+# NGK GenCode one-line installer
 # Source (verify before running):
 #   https://github.com/kompound-ca/cs-website/blob/main/install/install.ps1
 #
 # What this does:
-#   1. Downloads cs2-gencode-1.0.2.zip
-#   2. Extracts it to %LOCALAPPDATA%\cs2-gencode (persistent, Chrome reads from it on every launch)
+#   1. Downloads ngk-gencode-1.0.2.zip
+#   2. Extracts it to %LOCALAPPDATA%\ngk-gencode (persistent, Chrome reads from it on every launch)
 #   3. Copies that folder path to your clipboard
 #   4. Opens that folder in Explorer
 #   5. Opens chrome://extensions/ in Chrome
@@ -18,9 +18,9 @@
 
 $ErrorActionPreference = 'Stop'
 
-$ZipUrl     = 'https://cs2inspect.dghq.app/cs2-gencode-1.0.2.zip'
-$InstallDir = Join-Path $env:LOCALAPPDATA 'cs2-gencode'
-$TempZip    = Join-Path $env:TEMP 'cs2-gencode-install.zip'
+$ZipUrl     = 'https://cs2inspect.dghq.app/ngk-gencode-1.0.2.zip'
+$InstallDir = Join-Path $env:LOCALAPPDATA 'ngk-gencode'
+$TempZip    = Join-Path $env:TEMP 'ngk-gencode-install.zip'
 
 function Step($n, $msg) {
     Write-Host "[$n/5] " -NoNewline -ForegroundColor Cyan
@@ -28,7 +28,7 @@ function Step($n, $msg) {
 }
 
 Write-Host ''
-Write-Host '  CS2 GenCode installer' -ForegroundColor Magenta
+Write-Host '  NGK GenCode installer' -ForegroundColor Magenta
 Write-Host '  ---------------------' -ForegroundColor DarkGray
 Write-Host ''
 

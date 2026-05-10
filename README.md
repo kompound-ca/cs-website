@@ -1,6 +1,6 @@
 # cs-website
 
-Static site hosting public-facing pages for the [CS2 GenCode extension](https://github.com/kompound-ca/cs-extension) and the dghq.app inspect community server.
+Static site hosting public-facing pages for the [NGK GenCode extension](https://github.com/kompound-ca/cs-extension) and the dghq.app inspect community server.
 
 ## Pages
 
@@ -44,7 +44,7 @@ Edit `privacy/index.html`. Keep the `Effective` date at the top in sync if chang
 When the extension ships a new version:
 
 1. Build it in the cs-extension repo (`npm run pack`).
-2. Copy the new `cs2-gencode-<version>.zip` into this repo's root.
+2. Copy the new `ngk-gencode-<version>.zip` into this repo's root.
 3. Delete the old zip.
 4. Update the version references in `index.html` and `install.ps1`.
 5. Commit and push.
